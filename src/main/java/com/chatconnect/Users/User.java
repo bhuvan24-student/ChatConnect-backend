@@ -1,5 +1,6 @@
 package com.chatconnect.Users;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -11,8 +12,11 @@ public class User {
     @Id
     @GeneratedValue
     private Long id;
+    @Column
     private String name;
+    @Column
     private String email;
+    @Column
     private String password;
 
     public long getId() {
