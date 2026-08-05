@@ -1,12 +1,15 @@
 package com.chatconnect.Service;
 
 import com.chatconnect.Users.User;
+import com.chatconnect.dto.UserRequestDTO;
+import com.chatconnect.dto.UserResponseDTO;
 import com.chatconnect.repository.UserRepo;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,21 +20,43 @@ public class UserService {
         this.userRepo=userRepo;
     }
 
-    public ResponseEntity<?> createuser(User user){
-        try{
-           return  ResponseEntity.ok(userRepo.save(user));
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+    public UserResponseDTO usercreation(UserRequestDTO userRequestDTO){
+        User user=new User();
+        user.setName(userRequestDTO.getName());
+        user.setEmail(userRequestDTO.getEmail());
+        user.setPassword(userRequestDTO.getPassword());
+        User Saveduser=userRepo.save(user);
+        UserResponseDTO userresponse=new UserResponseDTO();
+        userresponse.setName(Saveduser.getName());
+        userresponse.setEmail(Saveduser.getEmail());
+        userresponse.setId(Saveduser.getId());
+        return userresponse;
+    }
+
+    public List<UserResponseDTO> getUsers(){
+        List<User>users=userRepo.findAll();
+        List<UserResponseDTO>list=new ArrayList<>();
+        for(User user:users){
+            UserResponseDTO responseuser=new UserResponseDTO();
+            responseuser.setId(user.getId());
+            responseuser.setName(user.getName());
+            responseuser.setEmail(user.getEmail());
+            list.add(responseuser);
         }
+        return list;
     }
 
-    public List<User> getUsers(){
-        return userRepo.findAll();
-    }
-
-    public Optional<User> getUserById(Long id){
+    public UserResponseDTO getUserById(Long id){
         Optional<User> user=userRepo.findById(id);
-        return user;
+        UserResponseDTO userdto=new UserResponseDTO();
+        if(user.isPresent()){
+            User users=user.get();
+            userdto.setEmail(users.getEmail());
+            userdto.setName(users.getName());
+            userdto.setId(users.getId());
+            return userdto;
+        }
+        return null;
     }
 
     public String updateUser(Long id,User user){

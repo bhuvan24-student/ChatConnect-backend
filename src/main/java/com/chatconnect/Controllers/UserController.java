@@ -2,6 +2,8 @@ package com.chatconnect.Controllers;
 
 import com.chatconnect.Service.UserService;
 import com.chatconnect.Users.User;
+import com.chatconnect.dto.UserRequestDTO;
+import com.chatconnect.dto.UserResponseDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,22 +18,29 @@ public class UserController {
     }
     //To create new user
     @PostMapping("/createuser")
-    public ResponseEntity<?> usercreation(@RequestBody User user){
-       return userService.createuser(user);
+    public ResponseEntity<UserResponseDTO> usercreation(@RequestBody UserRequestDTO user){
+        UserResponseDTO userResponseDTO=userService.usercreation(user);
+         return ResponseEntity.ok(userResponseDTO);
     }
+
 
     //To retrive all the data
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getUsers(){
+    public ResponseEntity<List<UserResponseDTO>> getUsers(){
         return ResponseEntity.ok(userService.getUsers());
     }
+
+
     //to get user data by id
     @GetMapping("/users/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id){
-        Optional<User> user=userService.getUserById(id);
-        if(user.isPresent())return ResponseEntity.ok(user.get());
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id){
+         UserResponseDTO userResponseDTO=userService.getUserById(id);
+         if(userResponseDTO!=null) {
+             return ResponseEntity.ok(userResponseDTO);
+         }
+         return ResponseEntity.notFound().build();
     }
+
     //To update the existing data
     @PutMapping("/users/{id}")
     public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody User user){
