@@ -3,6 +3,7 @@ package com.chatconnect.Service;
 import com.chatconnect.Users.User;
 import com.chatconnect.dto.UserRequestDTO;
 import com.chatconnect.dto.UserResponseDTO;
+import com.chatconnect.exceptions.UserNotFoundException;
 import com.chatconnect.repository.UserRepo;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,7 +57,7 @@ public class UserService {
             userdto.setId(users.getId());
             return userdto;
         }
-        return null;
+        throw new UserNotFoundException(id);
     }
 
     public UserResponseDTO updateUser(Long id,UserRequestDTO userRequestDTO){
@@ -73,7 +74,7 @@ public class UserService {
             userResponseDTO.setId(existingUser.getId());
             return userResponseDTO;
         }
-        return null;
+        throw new UserNotFoundException(id);
     }
 
     public boolean deleteUser(Long id){
