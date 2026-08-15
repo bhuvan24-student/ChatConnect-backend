@@ -4,6 +4,7 @@ import com.chatconnect.Service.UserService;
 import com.chatconnect.Users.User;
 import com.chatconnect.dto.UserRequestDTO;
 import com.chatconnect.dto.UserResponseDTO;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public class UserController {
     }
     //To create new user
     @PostMapping("/createuser")
-    public ResponseEntity<UserResponseDTO> usercreation(@RequestBody UserRequestDTO user){
+    public ResponseEntity<UserResponseDTO> usercreation(@Valid @RequestBody UserRequestDTO user){
         UserResponseDTO userResponseDTO=userService.usercreation(user);
          return ResponseEntity.ok(userResponseDTO);
     }
@@ -43,7 +44,7 @@ public class UserController {
 
     //To update the existing data
     @PutMapping("/users/{id}")
-    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody UserRequestDTO user){
+    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id,@Valid @RequestBody UserRequestDTO user){
         UserResponseDTO userResponseDTO=userService.updateUser(id,user);
         if(userResponseDTO!=null){
             return ResponseEntity.ok(userResponseDTO);
