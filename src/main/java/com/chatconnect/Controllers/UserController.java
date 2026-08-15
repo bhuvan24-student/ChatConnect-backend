@@ -43,16 +43,19 @@ public class UserController {
 
     //To update the existing data
     @PutMapping("/users/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody User user){
-        String updated= userService.updateUser(id,user);
-        if(updated.equals("Updated")) return ResponseEntity.ok("Updated");
+    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody UserRequestDTO user){
+        UserResponseDTO userResponseDTO=userService.updateUser(id,user);
+        if(userResponseDTO!=null){
+            return ResponseEntity.ok(userResponseDTO);
+        }
         return ResponseEntity.notFound().build();
     }
     //Delete user by id
     @DeleteMapping("/users/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id){
-        Optional<User> user=userService.deleteUser(id);
-        if(user.isPresent()) return ResponseEntity.ok(user);
-        return ResponseEntity.notFound().build();
+         if(userService.deleteUser(id)){
+             return ResponseEntity.noContent().build();
+         }
+         return ResponseEntity.notFound().build();
     }
 }

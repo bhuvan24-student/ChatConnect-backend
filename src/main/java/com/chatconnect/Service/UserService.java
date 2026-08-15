@@ -59,22 +59,29 @@ public class UserService {
         return null;
     }
 
-    public String updateUser(Long id,User user){
-        Optional<User> data=userRepo.findById(id);
-        if(data.isPresent()){
-            user.setId(id);
-            userRepo.save(user);
-            return "Updated";
+    public UserResponseDTO updateUser(Long id,UserRequestDTO userRequestDTO){
+        Optional<User> userdata=userRepo.findById(id);
+        if(userdata.isPresent()){
+            User existingUser=userdata.get();
+            existingUser.setName(userRequestDTO.getName());
+            existingUser.setEmail(userRequestDTO.getEmail());
+            existingUser.setPassword(userRequestDTO.getPassword());
+            userRepo.save(existingUser);
+            UserResponseDTO userResponseDTO=new UserResponseDTO();
+            userResponseDTO.setEmail(existingUser.getEmail());
+            userResponseDTO.setName(existingUser.getName());
+            userResponseDTO.setId(existingUser.getId());
+            return userResponseDTO;
         }
-        return "Error";
+        return null;
     }
 
-    public Optional<User> deleteUser(Long id){
+    public boolean deleteUser(Long id){
         Optional<User> user=userRepo.findById(id);
         if(user.isPresent()){
             userRepo.deleteById(id);
-            return user;
+            return true;
         }
-        return Optional.empty();
+        return false;
     }
 }
