@@ -23,4 +23,8 @@ public class GlobalExceptionHandler {
         }
         return ResponseEntity.status(400).body(errormessages);
     }
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> unknowexceptionhandler(Exception ex){
+        return ResponseEntity.status(500).body("Something went wrong");
+    }
 }
