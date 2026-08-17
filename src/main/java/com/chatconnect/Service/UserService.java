@@ -1,5 +1,6 @@
 package com.chatconnect.Service;
 
+import com.chatconnect.Security.SecurityConfig;
 import com.chatconnect.Users.User;
 import com.chatconnect.dto.UserRequestDTO;
 import com.chatconnect.dto.UserResponseDTO;
@@ -7,6 +8,7 @@ import com.chatconnect.exceptions.UserNotFoundException;
 import com.chatconnect.repository.UserRepo;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
@@ -16,8 +18,10 @@ import java.util.Optional;
 
 @Service
 public class UserService {
+    final PasswordEncoder passwordEncoder;
     final UserRepo userRepo;
-    public UserService(UserRepo userRepo){
+    public UserService(PasswordEncoder passwordEncoder, UserRepo userRepo){
+        this.passwordEncoder = passwordEncoder;
         this.userRepo=userRepo;
     }
 
@@ -25,7 +29,7 @@ public class UserService {
         User user=new User();
         user.setName(userRequestDTO.getName());
         user.setEmail(userRequestDTO.getEmail());
-        user.setPassword(userRequestDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
         User Saveduser=userRepo.save(user);
         UserResponseDTO userresponse=new UserResponseDTO();
         userresponse.setName(Saveduser.getName());
