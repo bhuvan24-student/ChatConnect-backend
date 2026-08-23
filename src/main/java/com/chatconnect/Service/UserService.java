@@ -89,4 +89,13 @@ public class UserService {
         }
         return false;
     }
+
+    //user login
+    public boolean login(String email,String password){
+        Optional<User> user=userRepo.findByEmail(email);
+        if(user.isPresent()){
+           return  passwordEncoder.matches(password,user.get().getPassword());
+        }
+        return false;
+    }
 }

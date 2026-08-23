@@ -2,6 +2,7 @@ package com.chatconnect.Controllers;
 
 import com.chatconnect.Service.UserService;
 import com.chatconnect.Users.User;
+import com.chatconnect.dto.LoginRequestDTO;
 import com.chatconnect.dto.UserRequestDTO;
 import com.chatconnect.dto.UserResponseDTO;
 import jakarta.validation.Valid;
@@ -24,6 +25,14 @@ public class UserController {
          return ResponseEntity.ok(userResponseDTO);
     }
 
+
+    //login
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequestDTO loginreq){
+        boolean user= userService.login(loginreq.getEmail(),loginreq.getPassword());
+        if(user) return ResponseEntity.ok().body("Succesfully logged in");
+        return ResponseEntity.status(401).body("Invalid Email Or Password");
+    }
 
     //To retrive all the data
     @GetMapping("/users")
