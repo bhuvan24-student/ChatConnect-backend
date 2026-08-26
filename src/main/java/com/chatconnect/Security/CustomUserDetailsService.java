@@ -7,7 +7,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.core.userdetails.User;
 import java.util.Optional;
 
 public class CustomUserDetailsService implements UserDetailsService {
@@ -22,9 +21,10 @@ public class CustomUserDetailsService implements UserDetailsService {
          if(!user.isPresent()){
              throw  new UsernameNotFoundException("User not found");
          }
-        org.springframework.security.core.userdetails.User
+       return org.springframework.security.core.userdetails.User
                 .withUsername(user.get().getEmail())
                 .password(user.get().getPassword())
-                .authorities(new SimpleGrantedAuthority("ROLE_"+user.get().getRole())).build();
+                .authorities(new SimpleGrantedAuthority("ROLE_"+user.get().getRole()))
+                .build();
     }
 }
