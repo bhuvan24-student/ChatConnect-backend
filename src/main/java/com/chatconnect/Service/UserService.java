@@ -8,6 +8,11 @@ import com.chatconnect.exceptions.UserNotFoundException;
 import com.chatconnect.repository.UserRepo;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +25,11 @@ import java.util.Optional;
 public class UserService {
     final PasswordEncoder passwordEncoder;
     final UserRepo userRepo;
-    public UserService(PasswordEncoder passwordEncoder, UserRepo userRepo){
+    final AuthenticationManager authenticationManager;
+    public UserService(PasswordEncoder passwordEncoder, UserRepo userRepo, AuthenticationManager authenticationManager){
         this.passwordEncoder = passwordEncoder;
         this.userRepo=userRepo;
+        this.authenticationManager = authenticationManager;
     }
 
     public UserResponseDTO usercreation(UserRequestDTO userRequestDTO){
@@ -92,10 +99,10 @@ public class UserService {
 
     //user login
     public boolean login(String email,String password){
-        Optional<User> user=userRepo.findByEmail(email);
-        if(user.isPresent()){
-           return  passwordEncoder.matches(password,user.get().getPassword());
-        }
-        return false;
+        UsernamePasswordAuthenticationToken token=new
+                UsernamePasswordAuthenticationToken(email,password);
+        Authentication authentication=authenticationManager.authenticate(token);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return true;
     }
 }
