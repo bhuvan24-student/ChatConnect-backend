@@ -1,22 +1,17 @@
 package com.chatconnect.Service;
 
-import com.chatconnect.Security.SecurityConfig;
 import com.chatconnect.Users.User;
 import com.chatconnect.dto.UserRequestDTO;
 import com.chatconnect.dto.UserResponseDTO;
 import com.chatconnect.exceptions.UserNotFoundException;
 import com.chatconnect.repository.UserRepo;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +29,7 @@ public class UserService {
 
     public UserResponseDTO usercreation(UserRequestDTO userRequestDTO){
         User user=new User();
+        user.setRole("USER");
         user.setName(userRequestDTO.getName());
         user.setEmail(userRequestDTO.getEmail());
         user.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
