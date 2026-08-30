@@ -6,6 +6,7 @@ import com.chatconnect.dto.UserRequestDTO;
 import com.chatconnect.dto.UserResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -58,8 +59,9 @@ public class UserController {
         }
         return ResponseEntity.notFound().build();
     }
-    //Delete user by id
+    //Delete user by id only admins have permision
     @DeleteMapping("/users/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable Long id){
          if(userService.deleteUser(id)){
              return ResponseEntity.noContent().build();

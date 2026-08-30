@@ -99,6 +99,8 @@ public class UserService {
                 UsernamePasswordAuthenticationToken(email,password);
         Authentication authentication=authenticationManager.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        System.out.println(SecurityContextHolder.getContext().getAuthentication());
+
         return true;
     }
 }
