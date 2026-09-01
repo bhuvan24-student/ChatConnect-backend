@@ -1,8 +1,8 @@
 package com.chatconnect.Service;
 
 import com.chatconnect.Users.User;
-import com.chatconnect.dto.UserRequestDTO;
-import com.chatconnect.dto.UserResponseDTO;
+import com.chatconnect.DTO.UserRequestDTO;
+import com.chatconnect.DTO.UserResponseDTO;
 import com.chatconnect.exceptions.UserNotFoundException;
 import com.chatconnect.repository.UserRepo;
 import org.springframework.security.authentication.AuthenticationManager;

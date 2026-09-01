@@ -1,4 +1,4 @@
-package com.chatconnect.dto;
+package com.chatconnect.DTO;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

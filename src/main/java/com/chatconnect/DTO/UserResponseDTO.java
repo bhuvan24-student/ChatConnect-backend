@@ -1,4 +1,4 @@
-package com.chatconnect.dto;
+package com.chatconnect.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

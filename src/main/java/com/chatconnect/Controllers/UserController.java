@@ -1,9 +1,9 @@
 package com.chatconnect.Controllers;
 
 import com.chatconnect.Service.UserService;
-import com.chatconnect.dto.LoginRequestDTO;
-import com.chatconnect.dto.UserRequestDTO;
-import com.chatconnect.dto.UserResponseDTO;
+import com.chatconnect.DTO.LoginRequestDTO;
+import com.chatconnect.DTO.UserRequestDTO;
+import com.chatconnect.DTO.UserResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
