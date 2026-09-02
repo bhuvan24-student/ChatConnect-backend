@@ -1,5 +1,6 @@
 package com.chatconnect.Service;
 
+import com.chatconnect.Security.Jwt.JwtService;
 import com.chatconnect.Users.User;
 import com.chatconnect.DTO.UserRequestDTO;
 import com.chatconnect.DTO.UserResponseDTO;
@@ -21,10 +22,12 @@ public class UserService {
     final PasswordEncoder passwordEncoder;
     final UserRepo userRepo;
     final AuthenticationManager authenticationManager;
-    public UserService(PasswordEncoder passwordEncoder, UserRepo userRepo, AuthenticationManager authenticationManager){
+    final JwtService jwtService;
+    public UserService(PasswordEncoder passwordEncoder, UserRepo userRepo, AuthenticationManager authenticationManager ,JwtService jwtService){
         this.passwordEncoder = passwordEncoder;
         this.userRepo=userRepo;
         this.authenticationManager = authenticationManager;
+        this.jwtService=jwtService;
     }
 
     public UserResponseDTO usercreation(UserRequestDTO userRequestDTO){
@@ -94,13 +97,13 @@ public class UserService {
     }
 
     //user login
-    public boolean login(String email,String password){
+    public String login(String email,String password){
         UsernamePasswordAuthenticationToken token=new
                 UsernamePasswordAuthenticationToken(email,password);
         Authentication authentication=authenticationManager.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        System.out.println(SecurityContextHolder.getContext().getAuthentication());
 
-        return true;
+        String createtoken = jwtService.createtoken(email);
+        return createtoken;
     }
 }

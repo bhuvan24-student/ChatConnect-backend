@@ -28,9 +28,8 @@ public class UserController {
     //login
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDTO loginreq){
-        boolean user= userService.login(loginreq.getEmail(),loginreq.getPassword());
-        if(user) return ResponseEntity.ok().body("Succesfully logged in");
-        return ResponseEntity.status(401).body("Invalid Email Or Password");
+        String token= userService.login(loginreq.getEmail(), loginreq.getPassword());
+        return  ResponseEntity.ok(token);
     }
 
     //To retrive all the data
