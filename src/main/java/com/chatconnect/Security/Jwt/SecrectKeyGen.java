@@ -8,7 +8,11 @@ import java.util.Base64;
 public class SecrectKeyGen {
     public String Keygen() {
         byte[] key = Jwts.SIG.HS256.key().build().getEncoded();
-        String secret = Base64.getEncoder().encodeToString(key);
-        return secret;
+        return Base64.getEncoder().encodeToString(key);
+    }
+    public static void main(String[] args) {
+        SecrectKeyGen gen = new SecrectKeyGen();
+        String secret = gen.Keygen();
+        System.out.println(secret);
     }
 }
