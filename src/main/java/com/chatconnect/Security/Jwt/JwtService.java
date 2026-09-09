@@ -16,7 +16,7 @@ public class JwtService {
     private SecretKey secretKey;
     @PostConstruct
     public void init(){
-        byte[] bytes = Decoders.BASE64URL.decode(secret);
+        byte[] bytes = Decoders.BASE64.decode(secret);
         secretKey = Keys.hmacShaKeyFor(bytes);
     }
     public String createtoken(String email){
